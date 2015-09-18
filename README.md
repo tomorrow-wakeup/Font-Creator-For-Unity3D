@@ -21,8 +21,11 @@ save .csv font configuration file
 
 configure file
 > character : character you want to create
+
 > image_path : absolute path of your custom image
+
 > x_offset/y_offset/x_advance: bmfont original settings, just set to 0 if you don't understand what it means
+
 > x/y/width/height : you should set these values if you want to use part of an image, if width/height is 0, bmfont will use original width/height
 
 
