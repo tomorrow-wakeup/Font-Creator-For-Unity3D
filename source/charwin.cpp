@@ -1236,13 +1236,17 @@ void CCharWin::LoadFontConfig(const string &configFile)
 		/* Get the record */
 		csv_row row = file_parser.get_row();
 
-		if (5 == row.size())
+		if (9 == row.size())
 		{
 			string character = row[0];
 			string image_path = row[1];
 			string x_offset = row[2];
 			string y_offset = row[3];
 			string x_advance = row[4];
+			string x = row[5];
+			string y = row[6];
+			string width = row[7];
+			string height = row[8];
 
 			int id = 0;
 
@@ -1258,7 +1262,15 @@ void CCharWin::LoadFontConfig(const string &configFile)
 			}
 
 			// Create the icon image
-			int r = fontGen->AddIconImage(image_path.c_str(), id, atoi(x_offset.c_str()), atoi(y_offset.c_str()), atoi(x_advance.c_str()));
+			int r = fontGen->AddIconImage(image_path.c_str(), \
+				id, \
+				atoi(x_offset.c_str()), \
+				atoi(y_offset.c_str()), \
+				atoi(x_advance.c_str()), \
+				atoi(x.c_str()), \
+				atoi(y.c_str()), \
+				atoi(width.c_str()), \
+				atoi(height.c_str()));
 			string Error = "Failed to load " + image_path + ", check whether this file exists. Load font config process terminated.";
 			TCHAR ErrorT[1024];
 			ConvertAnsiToTChar(Error, ErrorT, 1024);
@@ -1288,7 +1300,7 @@ void CCharWin::OnSaveFontConfiguration()
 		if (NULL != file)
 		{
 			// write the column definitions
-			string definitions = "character,image_path,x_offset,y_offset,x_advance\n";
+			string definitions = "character,image_path,x_offset,y_offset,x_advance,x,y,width,height\n";
 			fwrite(definitions.c_str(), 1, definitions.size(), file);
 			const map<int, SIconImage *> &IconImages = fontGen->GetIconImageInfo();
 			for (map<int, SIconImage *>::const_iterator itr = IconImages.begin(); IconImages.end() != itr; ++itr)
@@ -1299,7 +1311,16 @@ void CCharWin::OnSaveFontConfiguration()
 				ConvertTCharToAnsi(characterT, character);
 
 				char info[1024] = { 0 };
-				int length = sprintf(info, "%s,%s,%d,%d,%d\n", character.c_str(), itr->second->fileName.c_str(), itr->second->xoffset, itr->second->yoffset, itr->second->advance);
+				int length = sprintf(info, "%s,%s,%d,%d,%d,%d,%d,%d,%d\n", \
+					character.c_str(), \
+					itr->second->fileName.c_str(), \
+					itr->second->xoffset, \
+					itr->second->yoffset, \
+					itr->second->advance, \
+					itr->second->x, \
+					itr->second->y, \
+					itr->second->width, \
+					itr->second->height);
 				fwrite(info, 1, length, file);
 			}
 			fclose(file);

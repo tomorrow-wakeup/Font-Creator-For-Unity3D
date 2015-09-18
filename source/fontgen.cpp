@@ -155,7 +155,7 @@ void CFontGen::ClearIconImages()
 	iconImages.clear();
 }
 
-int CFontGen::AddIconImage(const char *file, int id, int xoffset, int yoffset, int advance)
+int CFontGen::AddIconImage(const char *file, int id, int xoffset, int yoffset, int advance, int x, int y, int width, int height)
 {
 	assert(!isWorking);
 	arePagesGenerated = false;
@@ -169,6 +169,8 @@ int CFontGen::AddIconImage(const char *file, int id, int xoffset, int yoffset, i
 	acImage::Image rgbImg;
 	acImage::ConvertToARGB(rgbImg, rawImg);
 
+	rgbImg.Resize(x, y, width, height);
+
 	cImage *image = new cImage(rgbImg.width, rgbImg.height);
 	memcpy(image->pixels, rgbImg.data, rgbImg.width*rgbImg.height*4);
 
@@ -179,6 +181,10 @@ int CFontGen::AddIconImage(const char *file, int id, int xoffset, int yoffset, i
 	i->xoffset  = xoffset;
 	i->yoffset  = yoffset;
 	i->advance  = advance;
+	i->x		= x;
+	i->y		= y;
+	i->width	= width;
+	i->height	= height;
 
 	if (iconImages.end() != iconImages.find(id))
 	{

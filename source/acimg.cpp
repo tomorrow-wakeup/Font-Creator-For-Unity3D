@@ -34,6 +34,34 @@
 namespace acImage
 {
 
+void Image::Resize(UINT XOffset, UINT YOffset, UINT Width, UINT Height)
+{
+	if (0 == Width)
+	{
+		Width = width;
+	}
+
+	if (0 == Height)
+	{
+		Height = height;
+	}
+
+	UINT NewPitch = Width * pitch / width;
+	BYTE *NewData = new BYTE[NewPitch * Height];
+
+	for (int i = YOffset, m = 0; i < YOffset + Height; ++i, m += NewPitch)
+	{
+		memcpy(NewData + m, data + i * pitch + XOffset * pitch / width, NewPitch);
+	}
+
+	delete[]data;
+
+	data = NewData;
+	width = Width;
+	height = Height;
+	pitch = NewPitch;
+}
+
 int ConvertToARGB(Image &dst, const Image &src)
 {
 	if( src.format == PF_COLORMAP )

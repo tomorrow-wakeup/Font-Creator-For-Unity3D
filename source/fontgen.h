@@ -63,6 +63,10 @@ struct SIconImage
 	int     xoffset;
 	int     yoffset;
 	int     advance;
+	int		x;
+	int		y;
+	int		width;
+	int		height;
 };
 
 enum EChnlValues
@@ -93,7 +97,7 @@ public:
 	void    ClearError();
 
 	// Icon images
-	int     AddIconImage(const char *file, int id, int xoffset, int yoffset, int advance);
+	int     AddIconImage(const char *file, int id, int xoffset, int yoffset, int advance, int x = 0, int y = 0, int width = 0, int height = 0);
 	const map<int, SIconImage *>&GetIconImageInfo();
 	int     DeleteIconImage(int id);
 	int     UpdateIconImage(int oldId, int id, const char *file, int xoffset, int yoffset, int advance);

@@ -62,6 +62,8 @@ struct Image
 	UINT         numColours; // number of colours in palette
 	DWORD       *palette;    // palette
 	BYTE        *data;
+
+	void Resize(UINT XOffset, UINT YOffset, UINT Width, UINT Height);
 };
 
 // TGA
