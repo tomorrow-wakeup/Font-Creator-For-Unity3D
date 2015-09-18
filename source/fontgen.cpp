@@ -2197,7 +2197,7 @@ int CFontGen::SaveConfiguration(const char *szFile)
 	for (map<int, SIconImage *>::iterator itr = iconImages.begin(); iconImages.end() != itr; ++itr)
 	{
 		string tmp = acUtility::GetRelativePath(filename, itr->second->fileName);
-		fprintf(f, "icon=\"%s\",%d,%d,%d,%d\n", tmp.c_str(), itr->second->id, itr->second->xoffset, itr->second->yoffset, itr->second->advance);
+		fprintf(f, "icon=\"%s\",%d,%d,%d,%d,%d,%d,%d,%d\n", tmp.c_str(), itr->second->id, itr->second->xoffset, itr->second->yoffset, itr->second->advance, itr->second->x, itr->second->y, itr->second->width, itr->second->height);
 	}
 
 	fclose(f);
@@ -2306,26 +2306,14 @@ int CFontGen::LoadConfiguration(const char *filename)
 			file.assign(start+1, end);
 			file = acUtility::GetFullPath(filename, file);
 			
-			int id = 0, xoffset = 0, yoffset = 0, advance = 0;
+			int id = 0, xoffset = 0, yoffset = 0, advance = 0, x = 0, y = 0, width = 0, height = 0;
 			if( *(end+1) == ',' )
 			{
 				c = end+2;
-				id = strtol(c, &c, 10);
-				if( *c == ',' )
-				{
-					xoffset = strtol(c+1, &c, 10);
-					if( *c == ',' )
-					{
-						yoffset = strtol(c+1, &c, 10);
-						if( *c == ',' )
-						{
-							advance = strtol(c+1, &c, 10);
-						}
-					}
-				}
+				sscanf(c, "%d,%d,%d,%d,%d,%d,%d,%d", &id, &xoffset, &yoffset, &advance, &x, &y, &width, &height);
 			}
 
-			AddIconImage(file.c_str(), id, xoffset, yoffset, advance);
+			AddIconImage(file.c_str(), id, xoffset, yoffset, advance, x, y, width, height);
 		}
 	}
 
