@@ -19,7 +19,15 @@ save .csv font configuration file
 
 > choose Options ==> Save font congfiuration..., bmfont will write images path into target file
 
+configure file
+> character : character you want to create
+> image_path : absolute path of your custom image
+> x_offset/y_offset/x_advance: bmfont original settings, just set to 0 if you don't understand what it means
+> x/y/width/height : you should set these values if you want to use part of an image, if width/height is 0, bmfont will use original width/height
+
+
 ### changelog
+- 09/18/2015 support use part of an image to create font
 - 07/28/2015 version 1.0 released, can load and save .csv style font configuration file.
 
 ### bugs and issues
